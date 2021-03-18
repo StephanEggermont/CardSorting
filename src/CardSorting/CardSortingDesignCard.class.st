@@ -32,6 +32,10 @@ CardSortingDesignCard >> design: aDesign [
 ]
 
 { #category : #accessing }
+CardSortingDesignCard >> edit [
+]
+
+{ #category : #accessing }
 CardSortingDesignCard >> initialize [
 	super initialize.
 	self
@@ -47,7 +51,19 @@ CardSortingDesignCard >> initialize [
 				bottom: 2
 				right: 2);
 		addLook: BrShadowLook new;
+		addLook: (BrGlamorousWithContextMenuLook
+               content: [ BrGlamorousSimpleContextMenuContent new
+                   items:self menuItems ;
+                   yourself ]);
 		addChild: self createLabel
+]
+
+{ #category : #accessing }
+CardSortingDesignCard >> menuItems [
+
+    ^{(#'Edit' -> [ :e | self edit]).
+      (#'Start' -> [ :e | self start ])}.
+ 
 ]
 
 { #category : #accessing }
@@ -56,6 +72,10 @@ CardSortingDesignCard >> newlabel [
 		look: BrGlamorousLabelLook;
 		padding: (BlInsets left: 2);
 		text: ''
+]
+
+{ #category : #accessing }
+CardSortingDesignCard >> start [
 ]
 
 { #category : #accessing }
