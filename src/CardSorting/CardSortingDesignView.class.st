@@ -23,12 +23,12 @@ CardSortingDesignView >> addBackButton [
 		margin:
 			(BlInsets
 				top: 10
-				left: 40
+				left: 10
 				bottom: 10
 				right: 0);
+		icon: BrGlamorousVectorIcons left;
 		label: 'Back';
 		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
-		icon: BrGlamorousVectorIcons add;
 		action: [ self back ];
 		yourself
 ]

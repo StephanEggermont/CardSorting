@@ -28,7 +28,7 @@ CardSortingDesignsView >> addDesignButton [
 		margin:
 			(BlInsets
 				top: 10
-				left: 40
+				left: 10
 				bottom: 10
 				right: 0);
 		label: 'Add Design';
