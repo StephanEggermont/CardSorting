@@ -44,6 +44,28 @@ CardSortingDesignView >> backBlock: aBlock [
 ]
 
 { #category : #accessing }
+CardSortingDesignView >> createAccordionLabeled: aLabel text: aText [
+	| anAccordion |
+	anAccordion := BrAccordion new.
+	anAccordion
+		hMatchParent;
+		vFitContent.
+	anAccordion look: GtCoderExpanderLook new.
+	anAccordion
+		header: [ BrButton new
+				look: BrGlamorousAccordionHeaderLook new;
+				label: aLabel;
+				action: [ anAccordion toggleExpanded ] ].
+	anAccordion
+		content: [ BrEditor new
+				look: BrGlamorousEditorLook new;
+				beEditable;
+				text: aText];
+		collapse.
+	^ anAccordion
+]
+
+{ #category : #accessing }
 CardSortingDesignView >> createBar [
 	bar := BlElement new
 		size: 800 @ 40;
@@ -57,19 +79,35 @@ CardSortingDesignView >> createBar [
 ]
 
 { #category : #accessing }
+CardSortingDesignView >> createCategories [
+	^self createAccordionLabeled: 'The predefined categories to sort the concepts into' text: design categoriesText
+]
+
+{ #category : #accessing }
+CardSortingDesignView >> createConcepts [
+	^self createAccordionLabeled: 'The concepts to sort' text: design conceptsText
+]
+
+{ #category : #accessing }
 CardSortingDesignView >> createPane [
 	pane := BlElement new
 		size: 800@600;
 		background: Color lightGray muchLighter lighter;
 		padding: (BlInsets all: 2);
-		layout: BlLinearLayout horizontal;
+		layout: BlLinearLayout vertical;
 		yourself.
 	^pane
 ]
 
 { #category : #accessing }
+CardSortingDesignView >> createParticipants [
+	^self createAccordionLabeled: 'The participants' text: design participantsText
+]
+
+{ #category : #accessing }
 CardSortingDesignView >> design: aDesign [
-	design := aDesign
+	design := aDesign.
+	self updatePane
 ]
 
 { #category : #accessing }
@@ -82,4 +120,12 @@ CardSortingDesignView >> initialize [
 	addChild: self createBar;
 	addChild: self createPane;
 	yourself 
+]
+
+{ #category : #accessing }
+CardSortingDesignView >> updatePane [
+	pane removeChildren.
+	pane addChild: self createConcepts;
+		addChild: self createCategories;
+		addChild: self createParticipants
 ]

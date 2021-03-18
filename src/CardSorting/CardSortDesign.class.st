@@ -19,8 +19,20 @@ CardSortDesign >> categories [
 ]
 
 { #category : #accessing }
+CardSortDesign >> categoriesText [
+	^String streamContents: [:s |
+		self categories do: [ :category | s nextPutAll: category label] separatedBy: [s cr]].
+]
+
+{ #category : #accessing }
 CardSortDesign >> concepts [
 	^concepts ifNil: [concepts := OrderedCollection new]
+]
+
+{ #category : #accessing }
+CardSortDesign >> conceptsText [
+	^String streamContents: [:s |
+		self concepts do: [ :concept | s nextPutAll: concept label] separatedBy: [s cr]].
 ]
 
 { #category : #accessing }
@@ -31,4 +43,10 @@ CardSortDesign >> label [
 { #category : #accessing }
 CardSortDesign >> participants [
 	^participants ifNil: [participants := OrderedCollection new]
+]
+
+{ #category : #accessing }
+CardSortDesign >> participantsText [
+	^String streamContents: [:s |
+		self participants do: [ :participant | s nextPutAll: participant label] separatedBy: [s cr]].
 ]
