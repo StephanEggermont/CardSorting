@@ -24,6 +24,11 @@ CardSortDesign >> concepts [
 ]
 
 { #category : #accessing }
+CardSortDesign >> label [
+	^(self concepts size) asString, ' - ', (self participants size) asString 
+]
+
+{ #category : #accessing }
 CardSortDesign >> participants [
 	^participants ifNil: [participants := OrderedCollection new]
 ]
