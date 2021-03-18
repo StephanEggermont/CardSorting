@@ -5,7 +5,10 @@ Class {
 		'design',
 		'backBlock',
 		'bar',
-		'pane'
+		'pane',
+		'categories',
+		'concepts',
+		'participants'
 	],
 	#category : #CardSorting
 }
@@ -35,6 +38,7 @@ CardSortingDesignView >> addBackButton [
 
 { #category : #accessing }
 CardSortingDesignView >> back [
+	self save.
 	backBlock value
 ]
 
@@ -80,12 +84,14 @@ CardSortingDesignView >> createBar [
 
 { #category : #accessing }
 CardSortingDesignView >> createCategories [
-	^self createAccordionLabeled: 'The predefined categories to sort the concepts into' text: design categoriesText
+	categories := self createAccordionLabeled: 'The predefined categories (', design categories size asString, ') to sort the concepts into' text: design categoriesText.
+	^categories
 ]
 
 { #category : #accessing }
 CardSortingDesignView >> createConcepts [
-	^self createAccordionLabeled: 'The concepts to sort' text: design conceptsText
+	concepts := self createAccordionLabeled: 'The concepts (', design concepts size asString, ') to sort' text: design conceptsText.
+	^concepts
 ]
 
 { #category : #accessing }
@@ -101,7 +107,8 @@ CardSortingDesignView >> createPane [
 
 { #category : #accessing }
 CardSortingDesignView >> createParticipants [
-	^self createAccordionLabeled: 'The participants' text: design participantsText
+	participants := self createAccordionLabeled: 'The participants (', design categories size asString, ')' text: design participantsText.
+	^participants
 ]
 
 { #category : #accessing }
@@ -120,6 +127,17 @@ CardSortingDesignView >> initialize [
 	addChild: self createBar;
 	addChild: self createPane;
 	yourself 
+]
+
+{ #category : #accessing }
+CardSortingDesignView >> save [
+	concepts expand.
+	categories expand.
+	participants expand.
+	design conceptsFromString: (((concepts childNamed: #content) childAt: 1) text) asString.
+	design categoriesFromString: (((categories childNamed: #content) childAt: 1) text) asString.
+	design participantsFromString: (((participants childNamed: #content) childAt: 1) text) asString.
+	
 ]
 
 { #category : #accessing }

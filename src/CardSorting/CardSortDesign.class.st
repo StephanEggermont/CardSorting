@@ -19,9 +19,16 @@ CardSortDesign >> categories [
 ]
 
 { #category : #accessing }
+CardSortDesign >> categoriesFromString: aString [
+	categories := OrderedCollection new.
+	aString lines do: [:line |
+		categories add: line]
+]
+
+{ #category : #accessing }
 CardSortDesign >> categoriesText [
 	^String streamContents: [:s |
-		self categories do: [ :category | s nextPutAll: category label] separatedBy: [s cr]].
+		self categories do: [ :category | s nextPutAll: category] separatedBy: [s cr]].
 ]
 
 { #category : #accessing }
@@ -30,9 +37,16 @@ CardSortDesign >> concepts [
 ]
 
 { #category : #accessing }
+CardSortDesign >> conceptsFromString: aString [
+	concepts := OrderedCollection new.
+	aString lines do: [:line |
+		concepts add: line]
+]
+
+{ #category : #accessing }
 CardSortDesign >> conceptsText [
 	^String streamContents: [:s |
-		self concepts do: [ :concept | s nextPutAll: concept label] separatedBy: [s cr]].
+		self concepts do: [ :concept | s nextPutAll: concept ] separatedBy: [s cr]].
 ]
 
 { #category : #accessing }
@@ -46,7 +60,14 @@ CardSortDesign >> participants [
 ]
 
 { #category : #accessing }
+CardSortDesign >> participantsFromString: aString [
+	participants := OrderedCollection new.
+	aString lines do: [:line |
+		participants add: line]
+]
+
+{ #category : #accessing }
 CardSortDesign >> participantsText [
 	^String streamContents: [:s |
-		self participants do: [ :participant | s nextPutAll: participant label] separatedBy: [s cr]].
+		self participants do: [ :participant | s nextPutAll: participant] separatedBy: [s cr]].
 ]
