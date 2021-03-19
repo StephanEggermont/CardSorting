@@ -10,7 +10,8 @@ Class {
 	#instVars : [
 		'cardSorts',
 		'designs',
-		'space'
+		'space',
+		'session'
 	],
 	#category : #CardSorting
 }
@@ -28,6 +29,11 @@ CardSortingApplication >> designs [
 ]
 
 { #category : #accessing }
+CardSortingApplication >> initialize [
+	session := CardSortingSession onApplication: self
+]
+
+{ #category : #accessing }
 CardSortingApplication >> open [
 	space := BlSpace new.
 	space title: 'Card Sorting'.
@@ -38,13 +44,17 @@ CardSortingApplication >> open [
 { #category : #accessing }
 CardSortingApplication >> openDesign: aDesign [
 	space root removeChildren.
-	space addChild: ((CardSortingDesignView onDesign: aDesign)
-		backBlock: [self openDesignsOverview];
-		yourself)
+	space addChild: (CardSortingDesignView onSession: session design: aDesign)
 ]
 
 { #category : #accessing }
 CardSortingApplication >> openDesignsOverview [
 	space root removeChildren.
-	space addChild: (CardSortingDesignsView onApplication: self)
+	space addChild: (CardSortingDesignsView onSession: session)
+]
+
+{ #category : #accessing }
+CardSortingApplication >> startDesign: aDesign [
+	space root removeChildren.
+	space addChild: (CardSortingDesignView onSession: session design: aDesign)
 ]

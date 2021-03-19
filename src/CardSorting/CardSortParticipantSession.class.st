@@ -3,7 +3,7 @@
 I am the card sort that one participant performs.
 "
 Class {
-	#name : #CardSortSession,
+	#name : #CardSortParticipantSession,
 	#superclass : #Object,
 	#instVars : [
 		'participant',
@@ -17,31 +17,31 @@ Class {
 }
 
 { #category : #accessing }
-CardSortSession >> categories [
+CardSortParticipantSession >> categories [
 	^categories ifNil: [categories := OrderedCollection new]
 ]
 
 { #category : #accessing }
-CardSortSession >> design [
+CardSortParticipantSession >> design [
 	^design
 ]
 
 { #category : #accessing }
-CardSortSession >> end [
+CardSortParticipantSession >> end [
 	^end
 ]
 
 { #category : #accessing }
-CardSortSession >> participant [
+CardSortParticipantSession >> participant [
 	^participant
 ]
 
 { #category : #accessing }
-CardSortSession >> start [
+CardSortParticipantSession >> start [
 	^start
 ]
 
 { #category : #accessing }
-CardSortSession >> toDo [
+CardSortParticipantSession >> toDo [
 	^toDo ifNil: [toDo := OrderedCollection new]
 ]

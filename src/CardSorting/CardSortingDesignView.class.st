@@ -8,16 +8,19 @@ Class {
 		'pane',
 		'categories',
 		'concepts',
-		'participants'
+		'participants',
+		'session'
 	],
 	#category : #CardSorting
 }
 
 { #category : #accessing }
-CardSortingDesignView class >> onDesign: aDesign [ 
+CardSortingDesignView class >> onSession: aSession design: aDesign [ 
 	^self new
+		session: aSession;
 		design: aDesign;
 		yourself
+		
 ]
 
 { #category : #accessing }
@@ -39,12 +42,7 @@ CardSortingDesignView >> addBackButton [
 { #category : #accessing }
 CardSortingDesignView >> back [
 	self save.
-	backBlock value
-]
-
-{ #category : #accessing }
-CardSortingDesignView >> backBlock: aBlock [
-	backBlock := aBlock
+	session designBack 
 ]
 
 { #category : #accessing }
@@ -138,6 +136,11 @@ CardSortingDesignView >> save [
 	design categoriesFromString: (((categories childNamed: #content) childAt: 1) text) asString.
 	design participantsFromString: (((participants childNamed: #content) childAt: 1) text) asString.
 	
+]
+
+{ #category : #accessing }
+CardSortingDesignView >> session: aSession [
+	session := aSession
 ]
 
 { #category : #accessing }

@@ -4,21 +4,21 @@ Class {
 	#instVars : [
 		'bar',
 		'pane',
-		'app'
+		'session'
 	],
 	#category : #'CardSorting-CardSorting'
 }
 
 { #category : #accessing }
-CardSortingDesignsView class >> onApplication: anApplication [
+CardSortingDesignsView class >> onSession: aSession [
 	^self new
-		app: anApplication;
+		session: aSession;
 		yourself
 ]
 
 { #category : #accessing }
 CardSortingDesignsView >> addDesign [
-	app addDesign.
+	session addDesign.
 	self updateDesigns
 ]
 
@@ -36,12 +36,6 @@ CardSortingDesignsView >> addDesignButton [
 		icon: BrGlamorousVectorIcons add;
 		action: [ self addDesign ];
 		yourself
-]
-
-{ #category : #accessing }
-CardSortingDesignsView >> app: anApplication [
-	app := anApplication.
-	self updateDesigns
 ]
 
 { #category : #accessing }
@@ -82,13 +76,18 @@ CardSortingDesignsView >> initialize [
 
 { #category : #accessing }
 CardSortingDesignsView >> openDesign: aDesign [
-	app openDesign: aDesign
+	session openDesign: aDesign
+]
+
+{ #category : #accessing }
+CardSortingDesignsView >> session: aSession [
+	session := aSession.
+	self updateDesigns
 ]
 
 { #category : #initialization }
 CardSortingDesignsView >> updateDesigns [
 	pane removeChildren.
-	app designs do: [ :each| 
-		pane addChild: ((CardSortingDesignCard onDesign: each)
-			action: [ self openDesign: each])]
+	session designs do: [ :each| 
+		pane addChild: (CardSortingDesignCard onSession: session design: each)]
 ]

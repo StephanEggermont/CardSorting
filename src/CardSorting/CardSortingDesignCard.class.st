@@ -2,6 +2,7 @@ Class {
 	#name : #CardSortingDesignCard,
 	#superclass : #BrButton,
 	#instVars : [
+		'session',
 		'design',
 		'label'
 	],
@@ -9,8 +10,9 @@ Class {
 }
 
 { #category : #initialization }
-CardSortingDesignCard class >> onDesign: aDesign [
+CardSortingDesignCard class >> onSession: aSession design: aDesign [
 	^self new
+		session: aSession;
 		design: aDesign;
 		yourself
 ]
@@ -33,6 +35,7 @@ CardSortingDesignCard >> design: aDesign [
 
 { #category : #accessing }
 CardSortingDesignCard >> edit [
+	session edit: design
 ]
 
 { #category : #accessing }
@@ -75,7 +78,14 @@ CardSortingDesignCard >> newlabel [
 ]
 
 { #category : #accessing }
+CardSortingDesignCard >> session: aSession [
+	session := aSession.
+	self action: [ session openDesign: design]
+]
+
+{ #category : #accessing }
 CardSortingDesignCard >> start [
+	session start: design
 ]
 
 { #category : #accessing }
