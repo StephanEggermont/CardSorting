@@ -56,5 +56,5 @@ CardSortingApplication >> openDesignsOverview [
 { #category : #accessing }
 CardSortingApplication >> startDesign: aDesign [
 	space root removeChildren.
-	space addChild: (CardSortingDesignView onSession: session design: aDesign)
+	space addChild: (CardSortingSortingView onSession: session design: aDesign)
 ]
