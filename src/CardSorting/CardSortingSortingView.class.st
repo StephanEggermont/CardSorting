@@ -60,7 +60,11 @@ CardSortingSortingView >> createPane [
 		size: 800@600;
 		background: Color lightGray muchLighter lighter;
 		padding: (BlInsets all: 2);
-	yourself.
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent];
+		layout: BlBasicLayout new;
+		yourself.
 	^pane
 ]
 
@@ -95,5 +99,9 @@ CardSortingSortingView >> session: aSession [
 { #category : #accessing }
 CardSortingSortingView >> updatePane [
 	pane removeChildren.
-
+	self haltOnce.
+	design concepts do: [ :concept |
+		pane addChild: (CardSortingSortCard new 
+			concept: concept;
+			yourself) ]
 ]
