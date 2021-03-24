@@ -1,25 +1,26 @@
 Class {
-	#name : #CardSortingSortCard,
+	#name : #CardSortingCategoryCard,
 	#superclass : #BlElement,
 	#instVars : [
-		'concept'
+		'concepts',
+		'category'
 	],
 	#category : #CardSorting
 }
 
 { #category : #accessing }
-CardSortingSortCard >> concept [
-	^concept
+CardSortingCategoryCard >> category [
+	^category
 ]
 
 { #category : #accessing }
-CardSortingSortCard >> concept: aConcept [
-	concept := aConcept.
+CardSortingCategoryCard >> category: aCategory [
+	category := aCategory.
 	self updateContents
 ]
 
 { #category : #accessing }
-CardSortingSortCard >> initialize [
+CardSortingCategoryCard >> initialize [
 	super initialize.
 	self size: 80@30;
 		background: (Color lightGray muchLighter);
@@ -31,10 +32,12 @@ CardSortingSortCard >> initialize [
 	addChild: (BrLabel new
 		look: BrGlamorousLabelLook;
 		padding: (BlInsets left: 2);
-		text: '')
+		text: '');
+	addEventHandler: BlPullHandler new 
+
 ]
 
 { #category : #accessing }
-CardSortingSortCard >> updateContents [
-	(self childAt:1) text: concept asRopedText
+CardSortingCategoryCard >> updateContents [
+	(self childAt:1) text: category asRopedText
 ]

@@ -5,7 +5,8 @@ Class {
 		'session',
 		'design',
 		'pane',
-		'bar'
+		'bar',
+		'dragDropHandler'
 	],
 	#category : #CardSorting
 }
@@ -77,13 +78,14 @@ CardSortingSortingView >> design: aDesign [
 { #category : #accessing }
 CardSortingSortingView >> initialize [
 	super initialize.
+	dragDropHandler := CardSortingDragAndDropHandler onPane: pane.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ];
 	layout: BlLinearLayout vertical;
 	addChild: self createBar;
 	addChild: self createPane;
-	yourself 
+	yourself
 ]
 
 { #category : #accessing }
@@ -99,9 +101,9 @@ CardSortingSortingView >> session: aSession [
 { #category : #accessing }
 CardSortingSortingView >> updatePane [
 	pane removeChildren.
-	self haltOnce.
 	design concepts do: [ :concept |
 		pane addChild: (CardSortingSortCard new 
 			concept: concept;
+			addEventHandler: dragDropHandler;
 			yourself) ]
 ]
