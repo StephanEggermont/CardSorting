@@ -43,7 +43,6 @@ CardSortingDragAndDropHandler >> columnBlock [
 		margin: (BlInsets all: 2);
 		padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2);
 		constraintsDo: [ :c | 
-			c horizontal exact: 86*3.
 			c vertical fitContent ];
 		addEventHandler: BlPullHandler new ]
 ]
@@ -61,10 +60,10 @@ CardSortingDragAndDropHandler >> dragEndEvent: anEvent [
 	overlay detach.
 	panes do: [:each | |nrOfChildren|
 		nrOfChildren := each childrenCount.
-		nrOfChildren = 0 ifTrue: [ pane removeChild: each]
-		ifFalse: [ each constraintsDo: [ :c | 
-			c horizontal exact: 86*(nrOfChildren sqrt roundUpTo: 1)]].
-].
+		nrOfChildren = 0 ifTrue: [ 
+			pane removeChild: each]
+		ifFalse: [ 
+			self fitCategory: each]].
 	(panes removeAllSuchThat: [:each | each childrenCount = 0]).
 	anEvent currentTarget dispatchEvent: BlPullEndEvent new
 ]
@@ -119,6 +118,12 @@ CardSortingDragAndDropHandler >> eventsToHandle [
 ]
 
 { #category : #accessing }
+CardSortingDragAndDropHandler >> fitCategory: aCategory [
+	aCategory constraintsDo: [ :c | 
+		c horizontal exact: 95*(aCategory childrenCount sqrt roundUpTo: 1)].
+]
+
+{ #category : #accessing }
 CardSortingDragAndDropHandler >> initialize [
 	super initialize.
 	panes := OrderedCollection new
@@ -157,15 +162,12 @@ CardSortingDragAndDropHandler >> movePlaceholderToCorrectParent: anEvent [
 	currentPane = parent
 		ifFalse: [ 
 			parent ifNotNil: [
-			parent removeChild: placeholder.
-				parent constraintsDo: [ :c | 
-					c horizontal exact: 86*(parent childrenCount sqrt roundUpTo: 1)]].
+				parent removeChild: placeholder.
+				self fitCategory: parent ].
 			parent := currentPane.
 			placeholder ifNil: [ placeholder := self placeholderFor: draggable].
 			parent addChild: placeholder.
-			parent constraintsDo: [ :c | 
-				c horizontal exact: 86*(parent childrenCount sqrt roundUpTo: 1)].
- ]
+			self fitCategory: parent]
 ]
 
 { #category : #accessing }
