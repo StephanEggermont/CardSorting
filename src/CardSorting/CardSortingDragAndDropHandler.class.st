@@ -2,12 +2,15 @@ Class {
 	#name : #CardSortingDragAndDropHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'dragStartGlobalPosition',
 		'originalPosition',
 		'overlay',
 		'draggable',
 		'parent',
-		'pane'
+		'pane',
+		'placeholder',
+		'panes',
+		'dragStartPosition',
+		'draggableOffset'
 	],
 	#category : #CardSorting
 }
@@ -20,48 +23,94 @@ CardSortingDragAndDropHandler class >> onPane: pane [
 ]
 
 { #category : #accessing }
+CardSortingDragAndDropHandler >> addPaneWith: aDraggable at: anEvent [ 
+	|column|
+	column := self columnBlock value.
+	panes add: column.
+	column addChild: aDraggable.
+	pane addChild: column.
+	column relocate: (column globalPointToParent: anEvent position) - draggableOffset + (-4@ -12). 
+	column when: BlPullStartEvent do: [ self makeLast: column]. 
+
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> columnBlock [
+	^ [ BlElement new
+		border: (BlBorder paint: Color lightGray lighter);
+		background: Color yellow muchLighter muchLighter lighter;
+		layout: BlFlowLayout new;
+		margin: (BlInsets all: 2);
+		padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2);
+		constraintsDo: [ :c | 
+			c horizontal exact: 86*3.
+			c vertical fitContent ];
+		addEventHandler: BlPullHandler new ]
+]
+
+{ #category : #accessing }
 CardSortingDragAndDropHandler >> dragEndEvent: anEvent [
 	"anEvent consumed: true."
-
+	overlay removeChild: draggable.
+	parent ifNil: [self addPaneWith: draggable at: anEvent] ifNotNil: [
+		(parent containsGlobalPoint: anEvent position) ifTrue: [
+			parent replaceChild: placeholder with: draggable] 
+		ifFalse: [ 
+			parent removeChild: placeholder.
+			self addPaneWith: draggable at: anEvent]].
+	overlay detach.
+	panes do: [:each | |nrOfChildren|
+		nrOfChildren := each childrenCount.
+		nrOfChildren = 0 ifTrue: [ pane removeChild: each]
+		ifFalse: [ each constraintsDo: [ :c | 
+			c horizontal exact: 86*(nrOfChildren sqrt roundUpTo: 1)]].
+].
+	(panes removeAllSuchThat: [:each | each childrenCount = 0]).
 	anEvent currentTarget dispatchEvent: BlPullEndEvent new
 ]
 
 { #category : #accessing }
 CardSortingDragAndDropHandler >> dragEvent: anEvent [
-	| aStartPosition aCurrentPosition aPreviousPosition dragDelta aNewPosition |
-	
-	dragStartGlobalPosition ifNil: [ dragStartGlobalPosition := anEvent position ].
-	
-	aCurrentPosition := anEvent currentTarget globalPointToParentChildren: anEvent position.
-		aStartPosition := anEvent currentTarget globalPointToParentChildren: dragStartGlobalPosition.
-
-	dragDelta := aCurrentPosition - aStartPosition.
-		
-	aNewPosition := ((originalPosition ifNil: [ originalPosition := anEvent currentTarget constraints position ]) + dragDelta).
-	aPreviousPosition := anEvent currentTarget constraints position.
-
+	| dragPosition dragDelta aNewPosition |
+	dragPosition := anEvent currentTarget
+		globalPointToParent: anEvent position.
+	self movePlaceholderIfOverOtherChild: anEvent.
+	dragDelta := dragPosition
+		- (dragStartPosition ifNil: [ dragStartPosition := dragPosition ]).
+	aNewPosition := (originalPosition
+		ifNil: [ originalPosition := anEvent currentTarget position ])
+		+ dragDelta.
 	anEvent currentTarget relocate: aNewPosition.
 	anEvent consumed: true.
-	
-	self
-		onPulled: anEvent currentTarget
-		from: aPreviousPosition
-		to: aNewPosition
-		by: dragDelta
-		starting: originalPosition
+	anEvent currentTarget
+		dispatchEvent:
+			(BlPullEvent new
+				initialPosition: originalPosition;
+				oldPosition: dragPosition;
+				newPosition: aNewPosition;
+				delta: dragDelta)
 ]
 
 { #category : #accessing }
 CardSortingDragAndDropHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
+	draggable := anEvent currentTarget.
+	parent := panes detect: [ :aPane | (aPane containsGlobalPoint: anEvent position) 
+		and: [ draggable hasParent: aPane]] ifNone: [nil].
+	overlay := BlOverlayElement on: pane.
+	pane parent addChild: overlay.
 
-	anEvent currentTarget dispatchEvent: BlPullStartEvent new.
-
-	"drag start position in space coordinates"
-	dragStartGlobalPosition := anEvent position.
-
+	"drag start position in parent"
+	dragStartPosition := draggable globalPointToParent: anEvent position.
+	draggableOffset := dragStartPosition - draggable position.
 	"element position in parent"
-	originalPosition := anEvent currentTarget constraints position
+	originalPosition := draggable position.
+	placeholder := self placeholderFor: draggable.
+	parent ifNotNil: [parent replaceChild: draggable with: placeholder]
+		ifNil: [draggable parent removeChild: draggable].
+	overlay addChild: draggable.
+
+	anEvent currentTarget dispatchEvent: BlPullStartEvent new
 ]
 
 { #category : #accessing }
@@ -71,7 +120,52 @@ CardSortingDragAndDropHandler >> eventsToHandle [
 
 { #category : #accessing }
 CardSortingDragAndDropHandler >> initialize [
-	super initialize
+	super initialize.
+	panes := OrderedCollection new
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> makeLast: aPane [
+	panes swap: (panes indexOf: aPane) with: panes size.
+	pane removeChildren.
+	pane addChildren: panes
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> movePlaceholderIfOverOtherChild: anEvent [
+	| mouseOverOther |
+	self movePlaceholderToCorrectParent: anEvent.
+	mouseOverOther := placeholder.
+	parent ifNotNil: [
+		parent children
+			do: [ :each | 
+				(each containsGlobalPoint: anEvent position)
+					ifTrue: [ mouseOverOther := each ] ].
+		mouseOverOther = placeholder
+			ifFalse: [ | index |
+				index := parent childIndexOf: mouseOverOther.
+				parent removeChild: placeholder.
+				parent addChild: placeholder at: index ]]
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> movePlaceholderToCorrectParent: anEvent [
+	| currentPane |
+	currentPane := panes reversed
+		detect: [ :aPane |(aPane containsGlobalPoint: anEvent position)]
+	ifNone: [ parent ].
+	currentPane = parent
+		ifFalse: [ 
+			parent ifNotNil: [
+			parent removeChild: placeholder.
+				parent constraintsDo: [ :c | 
+					c horizontal exact: 86*(parent childrenCount sqrt roundUpTo: 1)]].
+			parent := currentPane.
+			placeholder ifNil: [ placeholder := self placeholderFor: draggable].
+			parent addChild: placeholder.
+			parent constraintsDo: [ :c | 
+				c horizontal exact: 86*(parent childrenCount sqrt roundUpTo: 1)].
+ ]
 ]
 
 { #category : #accessing }
@@ -86,4 +180,14 @@ CardSortingDragAndDropHandler >> onPulled: aPulledElement from: aPreviousPositio
 { #category : #accessing }
 CardSortingDragAndDropHandler >> pane: aPane [
 	pane := aPane 
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> placeholderFor: aDraggable [ 
+	^BlElement new
+		size: aDraggable size;
+		border: (aDraggable border copyWithStyle: BlStrokeStyle dashed);
+		margin: aDraggable margin;
+		background: (aDraggable background paint color alpha: 0.2);
+		yourself
 ]

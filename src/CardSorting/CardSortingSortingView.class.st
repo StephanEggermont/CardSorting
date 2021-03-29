@@ -43,6 +43,12 @@ CardSortingSortingView >> back [
 ]
 
 { #category : #accessing }
+CardSortingSortingView >> card: aCard wasDroppedOn: anElement [.
+	anElement = pane ifTrue: [self inform:'do nothing'. ^self].
+	(pane hasChild: anElement) ifTrue: [self inform: 'combine'] 
+]
+
+{ #category : #accessing }
 CardSortingSortingView >> createBar [
 	bar := BlElement new
 		size: 800 @ 40;
@@ -78,14 +84,15 @@ CardSortingSortingView >> design: aDesign [
 { #category : #accessing }
 CardSortingSortingView >> initialize [
 	super initialize.
-	dragDropHandler := CardSortingDragAndDropHandler onPane: pane.
+	dragDropHandler := CardSortingDragAndDropHandler new.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ];
 	layout: BlLinearLayout vertical;
 	addChild: self createBar;
 	addChild: self createPane;
-	yourself
+	yourself.
+	dragDropHandler pane: pane.
 ]
 
 { #category : #accessing }
