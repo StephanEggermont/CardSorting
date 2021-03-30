@@ -121,6 +121,10 @@ CardSortingDragAndDropHandler >> eventsToHandle [
 CardSortingDragAndDropHandler >> fitCategory: aCategory [
 	aCategory constraintsDo: [ :c | 
 		c horizontal exact: 95*(aCategory childrenCount sqrt roundUpTo: 1)].
+	aCategory childrenCount = 1 ifTrue: [ 
+		aCategory padding: (BlInsets top: 2 left: 2 bottom: 2 right: 2)] 
+	ifFalse: [ 
+		aCategory padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2)]
 ]
 
 { #category : #accessing }
