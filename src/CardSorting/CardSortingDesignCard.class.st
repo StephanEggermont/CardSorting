@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'session',
 		'design',
-		'label'
+		'label',
+		'startButton'
 	],
 	#category : #CardSorting
 }
@@ -25,6 +26,22 @@ CardSortingDesignCard >> createLabel [
 		text: '';
 		yourself.
 	^label 
+]
+
+{ #category : #accessing }
+CardSortingDesignCard >> createStartButton [
+	^BrButton new
+		margin:
+			(BlInsets
+				top: 10
+				left: 10
+				bottom: 10
+				right: 0);
+		label: 'Start';
+		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
+		icon: BrGlamorousVectorIcons play;
+		action: [ self start ];
+		yourself
 ]
 
 { #category : #accessing }
@@ -58,7 +75,9 @@ CardSortingDesignCard >> initialize [
                content: [ BrGlamorousSimpleContextMenuContent new
                    items:self menuItems ;
                    yourself ]);
-		addChild: self createLabel
+		addChild: self createLabel.
+		startButton := self createStartButton.
+		self addChild: startButton.
 ]
 
 { #category : #accessing }
@@ -90,5 +109,7 @@ CardSortingDesignCard >> start [
 
 { #category : #accessing }
 CardSortingDesignCard >> updateLabel [
-	label text: design label
+	label text: design label.
+	design concepts size > 1 ifTrue: [startButton visibility: BlVisibility visible]
+		ifFalse: [startButton visibility: BlVisibility hidden.]
 ]
