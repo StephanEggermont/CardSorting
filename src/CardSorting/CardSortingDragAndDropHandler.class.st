@@ -37,10 +37,11 @@ CardSortingDragAndDropHandler >> addPaneWith: aDraggable at: anEvent [
 { #category : #accessing }
 CardSortingDragAndDropHandler >> columnBlock [
 	^ [ BlElement new
-		border: (BlBorder paint: Color lightGray lighter);
-		background: Color yellow muchLighter muchLighter lighter;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
+		border: (BlBorder paint: Color lightGray muchLighter width: 1);
+		background: Color yellow muchLighter lighter;
 		layout: BlFlowLayout new;
-		margin: (BlInsets all: 2);
+		margin: (BlInsets all: 1);
 		padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2);
 		constraintsDo: [ :c | 
 			c vertical fitContent ];
@@ -122,7 +123,7 @@ CardSortingDragAndDropHandler >> fitCategory: aCategory [
 	aCategory constraintsDo: [ :c | 
 		c horizontal exact: 95*(aCategory childrenCount sqrt roundUpTo: 1)].
 	aCategory childrenCount = 1 ifTrue: [ 
-		aCategory padding: (BlInsets top: 2 left: 2 bottom: 2 right: 2)] 
+		aCategory padding: (BlInsets top: 1 left: 1 bottom: 1 right: 1)] 
 	ifFalse: [ 
 		aCategory padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2)]
 ]
@@ -135,8 +136,10 @@ CardSortingDragAndDropHandler >> initialize [
 
 { #category : #accessing }
 CardSortingDragAndDropHandler >> makeLast: aPane [
+	| thePanes|
 	panes swap: (panes indexOf: aPane) with: panes size.
-	pane removeChildren.
+	thePanes := pane children select: [ :each | each class ~= CardSortingSortCard ].
+	pane removeChildren: thePanes.
 	pane addChildren: panes
 ]
 

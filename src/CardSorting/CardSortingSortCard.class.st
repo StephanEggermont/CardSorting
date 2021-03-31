@@ -22,12 +22,12 @@ CardSortingSortCard >> concept: aConcept [
 CardSortingSortCard >> initialize [
 	super initialize.
 	self size: 80@30;
-		background: (Color lightGray muchLighter);
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
+		background: (Color lightGreen muchLighter);
 		border: (BlBorder paint: Color lightGray muchLighter width: 1);
 		layout: (BlLinearLayout vertical);
 		margin: (BlInsets all: 6);
 		padding: (BlInsets top: 2 left: 2 bottom: 2 right: 2);
-		addLook: BrShadowLook new;
 	addChild: (BrLabel new
 		look: BrGlamorousLabelLook;
 		padding: (BlInsets left: 2);

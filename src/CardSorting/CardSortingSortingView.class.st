@@ -111,6 +111,7 @@ CardSortingSortingView >> updatePane [
 	design concepts do: [ :concept |
 		pane addChild: (CardSortingSortCard new 
 			concept: concept;
+			relocate: 10@10;
 			addEventHandler: dragDropHandler;
 			yourself) ]
 ]
