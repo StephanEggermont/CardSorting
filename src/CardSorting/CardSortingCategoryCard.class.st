@@ -22,11 +22,11 @@ CardSortingCategoryCard >> category: aCategory [
 { #category : #accessing }
 CardSortingCategoryCard >> initialize [
 	super initialize.
-	self size: 80@30;
+	self 
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
-		background: (Color lightGreen muchLighter);
+		background: (Color lightYellow muchLighter);
 		border: (BlBorder paint: Color lightGray muchLighter width: 1);
-		layout: (BlLinearLayout vertical);
+		layout: (BlFlowLayout new);
 		margin: (BlInsets all: 6);
 		padding: (BlInsets top: 2 left: 2 bottom: 2 right: 2);
 "		addLook: BrShadowLook new;

@@ -36,16 +36,11 @@ CardSortingDragAndDropHandler >> addPaneWith: aDraggable at: anEvent [
 
 { #category : #accessing }
 CardSortingDragAndDropHandler >> columnBlock [
-	^ [ BlElement new
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
-		border: (BlBorder paint: Color lightGray muchLighter width: 1);
-		background: Color yellow muchLighter lighter;
-		layout: BlFlowLayout new;
+	^ [ CardSortingCategoryCard new
 		margin: (BlInsets all: 1);
 		padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2);
 		constraintsDo: [ :c | 
-			c vertical fitContent ];
-		addEventHandler: BlPullHandler new ]
+			c vertical fitContent ]]
 ]
 
 { #category : #accessing }
@@ -121,11 +116,11 @@ CardSortingDragAndDropHandler >> eventsToHandle [
 { #category : #accessing }
 CardSortingDragAndDropHandler >> fitCategory: aCategory [
 	aCategory constraintsDo: [ :c | 
-		c horizontal exact: 95*(aCategory childrenCount sqrt roundUpTo: 1)].
-	aCategory childrenCount = 1 ifTrue: [ 
+		c horizontal exact: 95*((aCategory childrenCount -1) sqrt roundUpTo: 1)].
+	aCategory childrenCount = 2 ifTrue: [ 
 		aCategory padding: (BlInsets top: 1 left: 1 bottom: 1 right: 1)] 
 	ifFalse: [ 
-		aCategory padding: (BlInsets top: 10 left: 2 bottom: 2 right: 2)]
+		aCategory padding: (BlInsets top: 1 left: 2 bottom: 2 right: 2)]
 ]
 
 { #category : #accessing }
