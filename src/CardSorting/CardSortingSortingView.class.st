@@ -6,7 +6,8 @@ Class {
 		'design',
 		'pane',
 		'bar',
-		'dragDropHandler'
+		'dragDropHandler',
+		'maxWidth'
 	],
 	#category : #CardSorting
 }
@@ -40,6 +41,11 @@ CardSortingSortingView >> addBackButton [
 CardSortingSortingView >> back [
 	self save.
 	session designBack 
+]
+
+{ #category : #accessing }
+CardSortingSortingView >> calculateCardWidth: aCollection [
+	^aCollection max: [ :each | session measureTextParagraph: (BlSingleLineTextParagraph new text: each asRopedText; yourself)]
 ]
 
 { #category : #accessing }
@@ -108,8 +114,11 @@ CardSortingSortingView >> session: aSession [
 { #category : #accessing }
 CardSortingSortingView >> updatePane [
 	pane removeChildren.
+	maxWidth := self calculateCardWidth: design concepts.
+	dragDropHandler maxWidth: maxWidth. 
 	design concepts do: [ :concept |
 		pane addChild: (CardSortingSortCard new 
+			size: maxWidth @ 30;
 			concept: concept;
 			relocate: 10@10;
 			addEventHandler: dragDropHandler;

@@ -1,5 +1,5 @@
 "
-I provide the application session
+I provide the application session. I decouple the visual elements from the model
 "
 Class {
 	#name : #CardSortingSession,
@@ -40,6 +40,12 @@ CardSortingSession >> designs [
 { #category : #accessing }
 CardSortingSession >> edit: aDesign [
 	application openDesign: aDesign
+]
+
+{ #category : #accessing }
+CardSortingSession >> measureTextParagraph: aParagraph [
+	application space hostSpace measureTextParagraph: aParagraph.
+	^aParagraph width
 ]
 
 { #category : #accessing }

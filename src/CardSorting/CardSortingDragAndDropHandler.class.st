@@ -10,7 +10,8 @@ Class {
 		'placeholder',
 		'panes',
 		'dragStartPosition',
-		'draggableOffset'
+		'draggableOffset',
+		'maxWidth'
 	],
 	#category : #CardSorting
 }
@@ -116,7 +117,7 @@ CardSortingDragAndDropHandler >> eventsToHandle [
 { #category : #accessing }
 CardSortingDragAndDropHandler >> fitCategory: aCategory [
 	aCategory constraintsDo: [ :c | 
-		c horizontal exact: 95*((aCategory childrenCount -1) sqrt roundUpTo: 1)].
+		c horizontal exact: (maxWidth+12)*((aCategory childrenCount -1) sqrt roundUpTo: 1)].
 	aCategory childrenCount = 2 ifTrue: [ 
 		aCategory padding: (BlInsets top: 1 left: 1 bottom: 1 right: 1)] 
 	ifFalse: [ 
@@ -136,6 +137,11 @@ CardSortingDragAndDropHandler >> makeLast: aPane [
 	thePanes := pane children select: [ :each | each class ~= CardSortingSortCard ].
 	pane removeChildren: thePanes.
 	pane addChildren: panes
+]
+
+{ #category : #accessing }
+CardSortingDragAndDropHandler >> maxWidth: aWidth [
+	maxWidth := aWidth
 ]
 
 { #category : #accessing }
