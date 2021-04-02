@@ -31,7 +31,7 @@ CardSortingSortingView >> addBackButton [
 				right: 0);
 		icon: BrGlamorousVectorIcons left;
 		label: 'Back';
-		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
+		aptitude: BrGlamorousButtonWithLabelAndIconAptitude+BrGlamorousButtonRectangularAptitude;
 		action: [ self back ];
 		yourself
 ]

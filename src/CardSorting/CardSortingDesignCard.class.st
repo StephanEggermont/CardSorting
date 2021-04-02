@@ -21,7 +21,7 @@ CardSortingDesignCard class >> onSession: aSession design: aDesign [
 { #category : #accessing }
 CardSortingDesignCard >> createLabel [
 	label :=  BrLabel new
-		look: BrGlamorousLabelLook;
+		aptitude: BrGlamorousLabelAptitude;
 		padding: (BlInsets left: 2);
 		text: '';
 		yourself.
@@ -38,7 +38,7 @@ CardSortingDesignCard >> createStartButton [
 				bottom: 10
 				right: 0);
 		label: 'Start';
-		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
+		aptitude: BrGlamorousButtonWithLabelAndIconAptitude+BrGlamorousButtonRectangularAptitude;
 		icon: BrGlamorousVectorIcons play;
 		action: [ self start ];
 		yourself
@@ -70,14 +70,15 @@ CardSortingDesignCard >> initialize [
 				left: 2
 				bottom: 2
 				right: 2);
-		addLook: BrShadowLook new;
-		addLook: (BrGlamorousWithContextMenuLook
-               content: [ BrGlamorousSimpleContextMenuContent new
-                   items:self menuItems ;
-                   yourself ]);
+		addAptitude: BrShadowAptitude new;
+		addAptitude:
+			(BrGlamorousWithContextMenuAptitude
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items: self menuItems;
+						yourself ]);
 		addChild: self createLabel.
-		startButton := self createStartButton.
-		self addChild: startButton.
+	startButton := self createStartButton.
+	self addChild: startButton
 ]
 
 { #category : #accessing }
@@ -91,7 +92,7 @@ CardSortingDesignCard >> menuItems [
 { #category : #accessing }
 CardSortingDesignCard >> newlabel [
 	^ BrLabel new
-		look: BrGlamorousLabelLook;
+		aptitude: BrGlamorousLabelAptitude;
 		padding: (BlInsets left: 2);
 		text: ''
 ]

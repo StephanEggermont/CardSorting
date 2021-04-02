@@ -31,7 +31,7 @@ CardSortingCategoryCard >> initialize [
 		padding: (BlInsets top: 2 left: 2 bottom: 2 right: 2);
 "		addLook: BrShadowLook new;
 "	addChild: (BrLabel new
-		look: BrGlamorousLabelLook;
+		aptitude: BrGlamorousLabelAptitude;
 		padding: (BlInsets left: 2);
 		text: '');
 	addEventHandler: BlPullHandler new 

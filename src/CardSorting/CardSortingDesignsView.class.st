@@ -24,7 +24,7 @@ CardSortingDesignsView >> addDesign [
 
 { #category : #accessing }
 CardSortingDesignsView >> addDesignButton [
-	^BrButton new
+	^ BrButton new
 		margin:
 			(BlInsets
 				top: 10
@@ -32,7 +32,9 @@ CardSortingDesignsView >> addDesignButton [
 				bottom: 10
 				right: 0);
 		label: 'Add Design';
-		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
+		aptitude:
+			BrGlamorousButtonWithLabelAndIconAptitude
+				+ BrGlamorousButtonRectangularAptitude;
 		icon: BrGlamorousVectorIcons add;
 		action: [ self addDesign ];
 		yourself

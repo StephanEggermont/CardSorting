@@ -34,7 +34,7 @@ CardSortingDesignView >> addBackButton [
 				right: 0);
 		icon: BrGlamorousVectorIcons left;
 		label: 'Back';
-		look: BrGlamorousButtonWithLabelAndIconLook+BrGlamorousButtonRectangularLook;
+		aptitude: BrGlamorousButtonWithLabelAndIconAptitude+BrGlamorousButtonRectangularAptitude;
 		action: [ self back ];
 		yourself
 ]
@@ -52,15 +52,15 @@ CardSortingDesignView >> createAccordionLabeled: aLabel text: aText [
 	anAccordion
 		hMatchParent;
 		vFitContent.
-	anAccordion look: GtCoderExpanderLook new.
+	anAccordion aptitude: GtCoderExpanderAptitude new.
 	anAccordion
 		header: [ BrButton new
-				look: BrGlamorousAccordionHeaderLook new;
+				aptitude: BrGlamorousAccordionHeaderAptitude new;
 				label: aLabel;
 				action: [ anAccordion toggleExpanded ] ].
 	anAccordion
 		content: [ BrEditor new
-				look: BrGlamorousEditorLook new;
+				aptitude: BrGlamorousEditorAptitude new;
 				beEditable;
 				text: aText];
 		collapse.
