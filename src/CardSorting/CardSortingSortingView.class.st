@@ -45,7 +45,8 @@ CardSortingSortingView >> back [
 
 { #category : #accessing }
 CardSortingSortingView >> calculateCardWidth: aCollection [
-	^aCollection max: [ :each | session measureTextParagraph: (BlSingleLineTextParagraph new text: each asRopedText; yourself)]
+	^(aCollection max: [ :each | session measureTextParagraph: (BlSingleLineTextParagraph new text: ((each asRopedText)
+	  fontName: 'Source Sans Pro') yourself)])+8
 ]
 
 { #category : #accessing }
