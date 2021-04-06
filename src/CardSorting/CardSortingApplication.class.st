@@ -16,6 +16,11 @@ Class {
 	#category : #CardSorting
 }
 
+{ #category : #'instance creation' }
+CardSortingApplication class >> open [
+	^self new open
+]
+
 { #category : #accessing }
 CardSortingApplication >> addDesign [
 	|newDesign|
@@ -31,6 +36,11 @@ CardSortingApplication >> designs [
 { #category : #accessing }
 CardSortingApplication >> initialize [
 	session := CardSortingSession onApplication: self
+]
+
+{ #category : #accessing }
+CardSortingApplication >> measureTextParagraph: aParagraph [
+	space hostSpace measureTextParagraph: aParagraph
 ]
 
 { #category : #accessing }

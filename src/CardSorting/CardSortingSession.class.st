@@ -44,7 +44,7 @@ CardSortingSession >> edit: aDesign [
 
 { #category : #accessing }
 CardSortingSession >> measureTextParagraph: aParagraph [
-	application space hostSpace measureTextParagraph: aParagraph.
+	application measureTextParagraph: aParagraph.
 	^aParagraph width
 ]
 
