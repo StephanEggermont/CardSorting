@@ -6,7 +6,7 @@ Class {
 		'pane',
 		'session'
 	],
-	#category : #'CardSorting-CardSorting'
+	#category : #'CardSorting-Views'
 }
 
 { #category : #accessing }

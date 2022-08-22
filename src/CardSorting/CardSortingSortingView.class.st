@@ -9,7 +9,7 @@ Class {
 		'dragDropHandler',
 		'maxWidth'
 	],
-	#category : #CardSorting
+	#category : #'CardSorting-Views'
 }
 
 { #category : #'instance creation' }
@@ -77,7 +77,7 @@ CardSortingSortingView >> createPane [
 		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical matchParent];
-		layout: BlBasicLayout new;
+		layout: (BlOnceLayout on: (BlLinearLayout horizontal));
 		yourself.
 	^pane
 ]
@@ -97,8 +97,7 @@ CardSortingSortingView >> initialize [
 		c vertical matchParent ];
 	layout: BlLinearLayout vertical;
 	addChild: self createBar;
-	addChild: self createPane;
-	yourself.
+	addChild: self createPane.
 	dragDropHandler pane: pane.
 ]
 
@@ -121,7 +120,7 @@ CardSortingSortingView >> updatePane [
 		pane addChild: (CardSortingSortCard new 
 			size: maxWidth @ 30;
 			concept: concept;
-			relocate: 10@10;
 			addEventHandler: dragDropHandler;
-			yourself) ]
+			yourself) ].
+
 ]

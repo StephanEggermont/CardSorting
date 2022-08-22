@@ -5,7 +5,7 @@ Class {
 		'concepts',
 		'category'
 	],
-	#category : #CardSorting
+	#category : #'CardSorting-Views'
 }
 
 { #category : #accessing }

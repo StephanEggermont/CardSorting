@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'concept'
 	],
-	#category : #CardSorting
+	#category : #'CardSorting-Views'
 }
 
 { #category : #accessing }

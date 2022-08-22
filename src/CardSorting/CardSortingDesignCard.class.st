@@ -7,7 +7,7 @@ Class {
 		'label',
 		'startButton'
 	],
-	#category : #CardSorting
+	#category : #'CardSorting-Views'
 }
 
 { #category : #initialization }
@@ -105,6 +105,7 @@ CardSortingDesignCard >> session: aSession [
 
 { #category : #accessing }
 CardSortingDesignCard >> start [
+	design hasConcepts ifFalse: [^self].
 	session start: design
 ]
 

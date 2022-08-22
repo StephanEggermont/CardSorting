@@ -11,7 +11,7 @@ Class {
 		'participants',
 		'session'
 	],
-	#category : #CardSorting
+	#category : #'CardSorting-Views'
 }
 
 { #category : #accessing }

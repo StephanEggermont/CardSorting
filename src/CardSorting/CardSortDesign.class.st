@@ -50,6 +50,11 @@ CardSortDesign >> conceptsText [
 ]
 
 { #category : #accessing }
+CardSortDesign >> hasConcepts [
+	^self concepts size > 0
+]
+
+{ #category : #accessing }
 CardSortDesign >> label [
 	^(self concepts size) asString, ' - ', (self participants size) asString 
 ]
