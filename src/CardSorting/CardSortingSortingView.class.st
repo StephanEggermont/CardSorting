@@ -77,7 +77,7 @@ CardSortingSortingView >> createPane [
 		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical matchParent];
-		layout: (BlOnceLayout on: (BlLinearLayout horizontal));
+		layout: (BlOnceLayout on: (BlFlowLayout new));
 		yourself.
 	^pane
 ]
