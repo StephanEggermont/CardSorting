@@ -100,7 +100,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2022-08-22T16:45:10.31+02:00"
+						"dateAndTimeString" : "2022-08-22T16:45:31.059+02:00"
 					}
 				},
 				"uid" : {
@@ -110,7 +110,7 @@
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "A new design can then be added. A design consists of concepts, predefined categories, and predefined users "
+				"string" : "A new design can then be added. A design consists of concepts, predefined categories, and predefined participants"
 			}
 		]
 	},
